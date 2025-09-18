@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MusicHub - Instrument Categories</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    /* Header */
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    /* Hero Video Section */
+    .video-section {
+      position: relative;
+      height: 60vh;
+      overflow: hidden;
+    }
+    .video-section video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .video-overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      text-align: center;
+    }
+    .video-overlay h1 {
+      font-size: 3rem;
+      font-weight: bold;
+    }
+    .video-overlay p {
+      font-size: 1.2rem;
+    }
+
+    /* Cards */
+    .card {
+      border-radius: 15px;
+      overflow: hidden;
+      height: 350px;
+    }
+
+    /* Carousel Container */
+    .carousel-container {
+      position: relative;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    /* Arrows */
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: #ff4d4d;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      z-index: 2;
+    }
+    .carousel-arrow.left { left: -20px; }
+    .carousel-arrow.right { right: -20px; }
+
+    /* Footer */
+    .footer {
+      background: #111;
+      padding: 15px;
+      text-align: center;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">MusicHub</a>
+      </div>
+    </nav>
+
+    
+
+    <!-- Instrument Categories -->
+    <section class="py-5 text-center bg-light">
+      <div class="container">
+        <h2 class="fw-bold">Instrument Categories</h2>
+        <p class="text-muted">Explore instruments by type</p>
+      </div>
+    </section>
+
+    <!-- Custom 3-Card Carousel -->
+    <section class="py-5">
+      <div class="container carousel-container">
+        <div class="row justify-content-center" id="cardRow">
+          <!-- Cards will be injected by JS -->
+        </div>
+        <!-- Arrows -->
+        <div class="carousel-arrow left" onclick="prevSlide()">&#10094;</div>
+        <div class="carousel-arrow right" onclick="nextSlide()">&#10095;</div>
+      </div>
+    </section>
+
+    <!-- Hero Video Section -->
+    <section class="video-section">
+      <video autoplay muted loop>
+        <source src="video/index.mp4" type="video/mp4" />
+        Your browser does not support video.
+      </video>
+      <div class="video-overlay">
+        <h1>Welcome to MusicHub</h1>
+        <p>Discover Instruments & Sounds Around the World</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2025 MusicHub. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    const cardsData = [
+      { img: "images/string.jpg", title: "String Instruments", text: "Guitars, violins, sitars and more." },
+      { img: "images/wind.jpg", title: "Wind Instruments", text: "Flutes, saxophones, trumpets, etc." },
+      { img: "images/percussion.jpg", title: "Percussion", text: "Drums, tablas, and other rhythm makers." },
+      { img: "images/keyboard.jpg", title: "Keyboard", text: "Pianos, harmoniums, and synthesizers." },
+      { img: "images/electronic.jpg", title: "Electronic", text: "Modern digital sound machines." }
+    ];
+
+    let index = 0;
+    const cardRow = document.getElementById("cardRow");
+
+    function showSlides() {
+      cardRow.innerHTML = "";
+      for (let i = 0; i < 3; i++) {
+        let cardIndex = (index + i) % cardsData.length;
+        let card = cardsData[cardIndex];
+        cardRow.innerHTML += `
+          <div class="col-md-4">
+            <div class="card shadow">
+              <img src="${card.img}" class="card-img-top" style="height:200px; object-fit:cover;">
+              <div class="card-body text-center">
+                <h5 class="card-title">${card.title}</h5>
+                <p class="card-text">${card.text}</p>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function nextSlide() {
+      index = (index + 1) % cardsData.length;
+      showSlides();
+    }
+
+    function prevSlide() {
+      index = (index - 1 + cardsData.length) % cardsData.length;
+      showSlides();
+    }
+
+    // Auto-slide every 3 seconds
+    setInterval(nextSlide, 3000);
+
+    // Initial render
+    showSlides();
+  </script>
+</body>
+</html>
